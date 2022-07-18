@@ -1,9 +1,13 @@
 const {Schema, default: mongoose} = require('mongoose')
 
-const postSchema = new Schema({
+const commentSchema = new Schema({
     id:{
         type: Number,
         required: [true,'please provide first name']
+    },
+    postId:{
+        type: Number,
+        required: [true,'please provide postId']
     },
     userId:{
         type: Number
@@ -11,10 +15,6 @@ const postSchema = new Schema({
     content:{
         type: String,
         required: [true,'please provide content']
-    },
-    image:{
-        type: String,
-        required: [true,'please provide image']
     },
     status:{
         type: Boolean
@@ -24,6 +24,6 @@ const postSchema = new Schema({
     }
 })
 
-const post = mongoose.model('post',postSchema)
+const comment = mongoose.model('comment',commentSchema)
 
-module.exports = post
+module.exports = comment
