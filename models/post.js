@@ -1,10 +1,6 @@
 const {Schema, default: mongoose} = require('mongoose')
 
 const postSchema = new Schema({
-    id:{
-        type: Number,
-        required: [true,'please provide first name']
-    },
     userId:{
         type: Number
     },
