@@ -11,7 +11,7 @@ const getAllUsers = async (req, res, next) =>{
 }
 const createUser = async (req, res, next) =>{
     try {
-        const user = new Post(req.body)
+        const user = new User(req.body)
         const newUser = await user.save()
         res.status(200).json({
         success:true,
@@ -26,7 +26,7 @@ const createUser = async (req, res, next) =>{
 const updateOneUser = async (req, res, next) => {
     try {
         const user = await User.updateOne(req.body._id)
-        res.status(200).json(post)
+        res.status(200).json(user)
     } catch (error) {
         next(error)
     }
@@ -43,7 +43,7 @@ const getOneUser = async (req, res, next) =>{
 const deleteOneUser = async (req, res, next) =>{
     try {
         const user = await User.deleteOne(req.body._id)
-        res.status(200).json(post)
+        res.status(200).json(user)
     } catch (error) {
         next(error)
     }
