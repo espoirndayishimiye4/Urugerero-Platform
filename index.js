@@ -9,6 +9,7 @@ connDB()
 app.use(express.json())
 
 app.use('/post', require('./routes/post'))
+app.use('/user', require('./routes/user'))
 
 mongoose.connection.once('open', ()=>{
     console.log('DB connected')
