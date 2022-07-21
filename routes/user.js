@@ -5,7 +5,7 @@ const {getAllUsers, createUser,updateOneUser, getOneUser, deleteOneUser} = requi
 
 const routes = express.Router()
 
-routes.route('/:_id').get(getOneUser).delete(deleteOneUser).put.apply(updateOneUser)
+routes.route('/:_id').get(getOneUser).delete(deleteOneUser).put(updateOneUser)
 routes.route('/').get(getAllUsers).post(createUser)
 
 module.exports = routes
