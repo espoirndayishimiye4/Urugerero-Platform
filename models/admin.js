@@ -17,9 +17,7 @@ const adminSchema = new Schema({
         type: String,
         required: [true,'please provide password']
     },
-    dateTime:{
-        type: String
-    }
+    dateTime: String
 })
 
 const admin = mongoose.model('admin',adminSchema)
