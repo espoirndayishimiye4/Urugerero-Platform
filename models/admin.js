@@ -1,10 +1,6 @@
 const {Schema, default: mongoose} = require('mongoose')
 
 const adminSchema = new Schema({
-    id:{
-        type: Number,
-        required: [true,'please provide first name']
-    },
     firstName:{
         type: String,
         required: [true,'please provide first name']
@@ -17,8 +13,13 @@ const adminSchema = new Schema({
         type: String,
         required: [true,'please provide password']
     },
+    status:{
+        type: Boolean,
+        default:true
+    },
     dateTime:{
-        type: String
+        type: Date,
+        default: Date.now
     }
 })
 

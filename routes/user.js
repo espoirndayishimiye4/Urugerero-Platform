@@ -1,11 +1,11 @@
 const express = require('express')
 const app = express()
 
-const {getAllUsers, createUser,updateOneUser, getOneUser, deleteOneUser} = require('../controllers/user')
+const {getAllUser, createUser, getOneUser, deleteOneUser, updateUser} = require('../controllers/user')
 
 const routes = express.Router()
 
-routes.route('/:_id').get(getOneUser).delete(deleteOneUser).put(updateOneUser)
-routes.route('/').get(getAllUsers).post(createUser)
+routes.route('/:_id').get(getOneUser).delete(deleteOneUser).patch(updateUser)
+routes.route('/').get(getAllUser).post(createUser)
 
 module.exports = routes

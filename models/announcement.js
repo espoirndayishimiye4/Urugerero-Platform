@@ -1,23 +1,20 @@
 const {Schema, default: mongoose} = require('mongoose')
 
 const announcementSchema = new Schema({
-    id:{
-        type: Number,
-        required: [true,'please provide first name']
-    },
     adminId:{
-        type: Number,
-        required: [true,'please provide adminId']
+        type: Number
     },
     content:{
         type: String,
-        required: [true,'please provide last name']
+        required: [true,'please provide content']
     },
     status:{
-        type: Boolean
+        type: Boolean,
+        default:true
     },
     dateTime:{
-        type: String
+        type: Date,
+        default: Date.now
     }
 })
 

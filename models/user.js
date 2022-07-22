@@ -1,17 +1,13 @@
 const {Schema, default: mongoose} = require('mongoose')
 
 const userSchema = new Schema({
-    id:{
-        type: Number,
-        required: [true,'please provide first name']
-    },
     firstName:{
         type: String,
-        required: [true,'please provide content']
+        required: [true,'please provide first Name']
     },
     lastName:{
         type: String,
-        required: [true,'please provide content']
+        required: [true,'please provide last Name']
     },
     email:{
         type: String,
@@ -19,18 +15,19 @@ const userSchema = new Schema({
     },
     phone:{
         type: String,
-        required: [true,'please provide email']
+        required: [true,'please provide phone']
     },
     sector:{
         type: String,
-        required: [true,'please provide email']
+        required: [true,'please provide sector']
     },
     status:{
-        type: String,
-        required: [true,'please provide email']
+        type: Boolean,
+        default:true
     },
     dateTime:{
-        type: String
+        type: Date,
+        default: Date.now
     }
 })
 
