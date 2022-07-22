@@ -1,13 +1,8 @@
 const {Schema, default: mongoose} = require('mongoose')
 
 const commentSchema = new Schema({
-    id:{
-        type: Number,
-        required: [true,'please provide first name']
-    },
     postId:{
-        type: Number,
-        required: [true,'please provide postId']
+        type: Number
     },
     userId:{
         type: Number
@@ -17,10 +12,12 @@ const commentSchema = new Schema({
         required: [true,'please provide content']
     },
     status:{
-        type: Boolean
+        type: Boolean,
+        default:true
     },
     dateTime:{
-        type: String
+        type: Date,
+        default: Date.now
     }
 })
 

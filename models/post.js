@@ -13,10 +13,12 @@ const postSchema = new Schema({
         required: [true,'please provide image']
     },
     status:{
-        type: Boolean
+        type: Boolean,
+        default:true
     },
     dateTime:{
-        type: String
+        type: Date,
+        default: Date.now
     }
 })
 
