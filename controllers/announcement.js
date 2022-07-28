@@ -1,6 +1,9 @@
 const Announcement = require('../models/announcement')
 
-const getAllAnnouncement = async (req, res, next) =>{
+const asyncHandler = require('../middlewares/async')
+const {NotFound, BadRequest} = require('http-errors')
+
+const getAllAnnouncement = asyncHandler( async (req, res, next) =>{
     try {
         const announcement = await Announcement.find()
         res.status(200).json({
@@ -11,8 +14,8 @@ const getAllAnnouncement = async (req, res, next) =>{
         next(error)
     }
     
-}
-const createAnnouncement = async (req, res, next) =>{
+})
+const createAnnouncement = asyncHandler( async (req, res, next) =>{
     try {
         const announcement = new Announcement(req.body)
         const newannouncement = await announcement.save()
@@ -24,9 +27,9 @@ const createAnnouncement = async (req, res, next) =>{
        next(error) 
     }
     
-}
+})
 
-const getOneAnnouncement = async (req, res, next) =>{
+const getOneAnnouncement = asyncHandler( async (req, res, next) =>{
     try {
         const isannouncementExist = await Announcement.findById(req.params._id)
         if(!isannouncementExist) res.status(400).json({"message":"announcement not found"})
@@ -39,8 +42,8 @@ const getOneAnnouncement = async (req, res, next) =>{
     } catch (error) {
         next(error)
     }
-}
-const deleteOneAnnouncement = async (req, res, next) =>{
+})
+const deleteOneAnnouncement = asyncHandler( async (req, res, next) =>{
     try {
         const isannouncementExist = await Announcement.findById(req.params._id)
         if(!isannouncementExist) res.status(400).json({"message":"announcement not found"})
@@ -52,8 +55,8 @@ const deleteOneAnnouncement = async (req, res, next) =>{
     } catch (error) {
         next(error)
     }
-}
-const updateAnnouncement = async (req, res, next) =>{
+})
+const updateAnnouncement = asyncHandler( async (req, res, next) =>{
     try {
         const isannouncementExist = await Announcement.findById(req.params._id)
         if(!isannouncementExist) res.status(400).json({"message":"announcement not found"})
@@ -65,5 +68,5 @@ const updateAnnouncement = async (req, res, next) =>{
     } catch (error) {
         next(error)
     }
-}
+})
 module.exports = {getAllAnnouncement, createAnnouncement, getOneAnnouncement, deleteOneAnnouncement, updateAnnouncement}

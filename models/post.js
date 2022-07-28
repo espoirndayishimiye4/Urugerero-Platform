@@ -1,16 +1,22 @@
+const { required, optional } = require('joi')
 const {Schema, default: mongoose} = require('mongoose')
 
 const postSchema = new Schema({
     userId:{
-        type: Number
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user"
     },
     content:{
         type: String,
-        required: [true,'please provide content']
+        // required: [true,'please provide content']
     },
     image:{
         type: String,
-        required: [true,'please provide image']
+        // required: optional
+    },
+    video: {
+        type:String,
+        // required: optional
     },
     status:{
         type: Boolean,

@@ -9,6 +9,11 @@ const userSchema = new Schema({
         type: String,
         required: [true,'please provide last Name']
     },
+    role: {
+        type: String, 
+        enum: ['user', 'admin'],
+        default:'user'
+      },
     email:{
         type: String,
         required: [true,'please provide email']

@@ -1,6 +1,10 @@
 const Post = require('../models/post')
 
-const getAllPost = async (req, res, next) =>{
+const asyncHandler = require('../middlewares/async')
+const {NotFound, BadRequest} = require('http-errors')
+
+
+const getAllPost = asyncHandler( async (req, res, next) =>{
     try {
         const post = await Post.find()
         res.status(200).json({
@@ -11,8 +15,8 @@ const getAllPost = async (req, res, next) =>{
         next(error)
     }
     
-}
-const createPost = async (req, res, next) =>{
+})
+const createPost = asyncHandler( async (req, res, next) =>{
     try {
         const post = new Post(req.body)
         const newPost = await post.save()
@@ -24,9 +28,9 @@ const createPost = async (req, res, next) =>{
        next(error) 
     }
     
-}
+})
 
-const getOnePost = async (req, res, next) =>{
+const getOnePost = asyncHandler( async (req, res, next) =>{
     try {
         const isPostExist = await Post.findById(req.params._id)
         if(!isPostExist) res.status(400).json({"message":"Post not found"})
@@ -39,8 +43,8 @@ const getOnePost = async (req, res, next) =>{
     } catch (error) {
         next(error)
     }
-}
-const deleteOnePost = async (req, res, next) =>{
+})
+const deleteOnePost = asyncHandler( async (req, res, next) =>{
     try {
         const isPostExist = await Post.findById(req.params._id)
         if(!isPostExist) res.status(400).json({"message":"Post not found"})
@@ -52,8 +56,8 @@ const deleteOnePost = async (req, res, next) =>{
     } catch (error) {
         next(error)
     }
-}
-const updatePost = async (req, res, next) =>{
+})
+const updatePost = asyncHandler( async (req, res, next) =>{
     try {
         const isPostExist = await Post.findById(req.params._id)
         if(!isPostExist) res.status(400).json({"message":"Post not found"})
@@ -65,5 +69,6 @@ const updatePost = async (req, res, next) =>{
     } catch (error) {
         next(error)
     }
-}
+})
+
 module.exports = {getAllPost, createPost, getOnePost, deleteOnePost, updatePost}

@@ -1,5 +1,9 @@
 const User = require('../models/user')
 
+const asyncHandler = require('../middlewares/async')
+const {NotFound, BadRequest} = require('http-errors')
+
+
 const getAllUser = async (req, res, next) =>{
     try {
         const user = await User.find()
@@ -12,7 +16,7 @@ const getAllUser = async (req, res, next) =>{
     }
     
 }
-const createUser = async (req, res, next) =>{
+const createUser = asyncHandler( async (req, res, next) =>{
     try {
         const user = new User(req.body)
         const newuser = await user.save()
@@ -24,9 +28,9 @@ const createUser = async (req, res, next) =>{
        next(error) 
     }
     
-}
+})
 
-const getOneUser = async (req, res, next) =>{
+const getOneUser = asyncHandler( async (req, res, next) =>{
     try {
         const isuserExist = await User.findById(req.params._id)
         if(!isuserExist) res.status(400).json({"message":"user not found"})
@@ -39,8 +43,8 @@ const getOneUser = async (req, res, next) =>{
     } catch (error) {
         next(error)
     }
-}
-const deleteOneUser = async (req, res, next) =>{
+})
+const deleteOneUser = asyncHandler( async (req, res, next) =>{
     try {
         const isuserExist = await User.findById(req.params._id)
         if(!isuserExist) res.status(400).json({"message":"user not found"})
@@ -52,8 +56,8 @@ const deleteOneUser = async (req, res, next) =>{
     } catch (error) {
         next(error)
     }
-}
-const updateUser = async (req, res, next) =>{
+})
+const updateUser = asyncHandler( async (req, res, next) =>{
     try {
         const isuserExist = await User.findById(req.params._id)
         if(!isuserExist) res.status(400).json({"message":"user not found"})
@@ -65,5 +69,6 @@ const updateUser = async (req, res, next) =>{
     } catch (error) {
         next(error)
     }
-}
+})
+
 module.exports = {getAllUser, createUser, getOneUser, deleteOneUser, updateUser}

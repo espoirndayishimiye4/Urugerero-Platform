@@ -1,6 +1,9 @@
 const Comment = require('../models/comment')
 
-const getAllComment = async (req, res, next) =>{
+const asyncHandler = require('../middlewares/async')
+const {NotFound, BadRequest} = require('http-errors')
+
+const getAllComment = asyncHandler( async (req, res, next) =>{
     try {
         const comment = await Comment.find()
         res.status(200).json({
@@ -11,8 +14,8 @@ const getAllComment = async (req, res, next) =>{
         next(error)
     }
     
-}
-const createComment = async (req, res, next) =>{
+})
+const createComment = asyncHandler( async (req, res, next) =>{
     try {
         const comment = new Comment(req.body)
         const newcomment = await comment.save()
@@ -24,9 +27,9 @@ const createComment = async (req, res, next) =>{
        next(error) 
     }
     
-}
+})
 
-const getOneComment = async (req, res, next) =>{
+const getOneComment = asyncHandler( async (req, res, next) =>{
     try {
         const iscommentExist = await Comment.findById(req.params._id)
         if(!iscommentExist) res.status(400).json({"message":"comment not found"})
@@ -39,8 +42,8 @@ const getOneComment = async (req, res, next) =>{
     } catch (error) {
         next(error)
     }
-}
-const deleteOneComment = async (req, res, next) =>{
+})
+const deleteOneComment = asyncHandler( async (req, res, next) =>{
     try {
         const iscommentExist = await Comment.findById(req.params._id)
         if(!iscommentExist) res.status(400).json({"message":"comment not found"})
@@ -52,8 +55,8 @@ const deleteOneComment = async (req, res, next) =>{
     } catch (error) {
         next(error)
     }
-}
-const updateComment = async (req, res, next) =>{
+})
+const updateComment = asyncHandler( async (req, res, next) =>{
     try {
         const iscommentExist = await comment.findById(req.params._id)
         if(!iscommentExist) res.status(400).json({"message":"comment not found"})
@@ -65,5 +68,6 @@ const updateComment = async (req, res, next) =>{
     } catch (error) {
         next(error)
     }
-}
+})
+
 module.exports = {getAllComment, createComment, getOneComment, deleteOneComment, updateComment}

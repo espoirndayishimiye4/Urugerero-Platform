@@ -3,6 +3,11 @@ const express = require('express')
 const app = express()
 require('dotenv').config()
 
+const userRouter = require("./routes/user");
+const postRouter = require('./routes/post')
+const announceRouter = require("./routes/announcement");
+const commentRouter = require('./routes/comment')
+
 const connDB = require('./config/dbConn')
 connDB()
 
@@ -12,7 +17,7 @@ app.use('/post', require('./routes/post'))
 app.use('/user', require('./routes/user'))
 app.use('/comment', require('./routes/comment'))
 app.use('/announcement', require('./routes/announcement'))
-app.use('/admin', require('./routes/admin'))
+
 
 mongoose.connection.once('open', ()=>{
     console.log('DB connected')
