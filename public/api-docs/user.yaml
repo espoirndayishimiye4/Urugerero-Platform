@@ -1,0 +1,157 @@
+definitions:
+  users:
+    type: object
+    required:
+      - firstName
+      - lastName
+      - email
+      - password
+      - phone
+      - sector
+      - role
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      password: 
+        type: string
+      phone:
+        type: string
+      sector:
+        type: string
+      role: 
+        type: string
+paths:
+  /user:
+    post:
+      tags:
+        - Users
+      summary: Creates A New User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/users'
+      responses:
+        '201':
+          description: User was created successfully
+        '500':
+          description: Internal server error
+        '409':
+          description: Already exists
+        '400':
+          description: Invalid data in the request
+
+/user/:   
+    get:
+      tags:
+        - Users
+      summary: Get users
+      responses:
+        '200':
+          description: All users data retrieved
+        '401':
+          description: unauthorized
+        '400':
+          description: Invalid data in the request
+        '500':
+          description: Internal server error
+
+    
+/user/{_id}:
+  get:
+    tags:
+      - Users
+    summary: Get user
+    parameters:
+        - in: path
+          name: _id
+    responses:
+      '200':
+        description: Success
+      '401':
+        description: unauthorized
+      '400':
+        description: Invalid data in the request
+      '500':
+        description: Internal server error
+
+  patch:
+    tags:
+      - Users
+    summary: Update user
+    parameters:
+        - in: path
+          name: _id
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/definitions/users'
+    responses:
+      '200':
+        description: User data Updated Successfully
+      '400':
+        description: Invalid data in the request
+      '401':
+        description: Unauthorized
+      '500':
+        description: Internal server error
+
+  delete:
+    tags:
+      - Users
+    summary: Delete user
+    parameters:
+        - in: path
+          name: _id
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/definitions/users'
+    responses:
+      '200':
+        description: user data deleted Successfully
+      '400':
+        description: Invalid data in the request
+      '401':
+        description: Unauthorized
+      '500':
+        description: Internal server error
+
+/user/login:
+  post:
+    tags:
+      - Login
+    summary: Login to Urugerero Platform
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+                description: user's email
+              password:
+                type: string
+                description: user's password
+    responses:
+      '201':
+        description: User logged in successfully
+      '400':
+        description: Bad request
+      '401':
+        description: Wrong email or password
+      '500':
+        description: Opps! something went wrong
