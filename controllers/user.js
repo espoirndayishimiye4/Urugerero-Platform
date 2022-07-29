@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt')
+const {BadRequest, NotFound, Unauthorized} = require('http-errors')
 const User = require('../models/user')
 
 const getAllUser = async (req, res, next) =>{
@@ -66,4 +68,34 @@ const updateUser = async (req, res, next) =>{
         next(error)
     }
 }
-module.exports = {getAllUser, createUser, getOneUser, deleteOneUser, updateUser}
+const login = async (req, res, next) => {
+    try {
+        const {email, password} = req.body
+        const user = await User.findOne({email: req.body.email})
+        if(!user) throw new NotFound('no user with this email exists')
+        const valid = await bcrypt.compare(password, user.password)
+        if(!valid) throw new Unauthorized('Unauthorized user')
+        // const token = jwt.sign({id:user._id, role: user.role}, 'some secret key', {
+        //     expiresIn: 10 * 300
+        // })
+    
+        // const sessionData =  {
+        //     id: user._id,
+        //     authenticated: true, 
+        //     role: user.role
+    
+        // }
+        // req.session.user = sessionData
+        
+        res.status(200).json({
+            success:true,
+            data:user
+        })
+    } catch (error) {
+        next(error)
+    }
+
+
+
+}
+module.exports = {getAllUser, createUser, getOneUser, deleteOneUser, updateUser, login}

@@ -1,5 +1,5 @@
 const {Schema, default: mongoose} = require('mongoose')
-
+const bcrypt = require('bcrypt')
 const userSchema = new Schema({
     firstName:{
         type: String,
@@ -13,6 +13,10 @@ const userSchema = new Schema({
         type: String,
         required: [true,'please provide email']
     },
+    password:{
+        type: String,
+        required: [true,'please provide email']
+    },
     phone:{
         type: String,
         required: [true,'please provide phone']
@@ -21,16 +25,26 @@ const userSchema = new Schema({
         type: String,
         required: [true,'please provide sector']
     },
+    role:{
+        type:String,
+        default: 'user'
+    },
     status:{
         type: Boolean,
-        default:true
+        default:false
     },
     dateTime:{
         type: Date,
         default: Date.now
     }
 })
-
+userSchema.pre("save",async function(next){
+    if(this.isModified('password')){
+        const hash = await bcrypt.hash(this.password,10)
+        this.password = hash
+    }
+    next()
+})
 const user = mongoose.model('user',userSchema)
 
 module.exports = user
