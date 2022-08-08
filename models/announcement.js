@@ -1,8 +1,9 @@
 const {Schema, default: mongoose} = require('mongoose')
 
 const announcementSchema = new Schema({
-    adminId:{
-        type: Number
+    userId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user"
     },
     content:{
         type: String,
