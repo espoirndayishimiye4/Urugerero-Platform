@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const express = require('express')
 const swaggerDocs = require('./public/api-docs/swagger');
+const errorHandler = require('./middlewares/error')
 
 require('dotenv').config()
 
@@ -18,6 +19,7 @@ app.use('/post', require('./routes/post'))
 app.use('/user', require('./routes/user'))
 app.use('/comment', require('./routes/comment'))
 app.use('/announcement', require('./routes/announcement'))
+app.use(errorHandler)
 
 mongoose.connection.once('open', ()=>{
     console.log('DB connected')
