@@ -1,13 +1,12 @@
 const bcrypt = require("bcrypt");
-const asyncHandler = require("../middlewares/async");
 const { BadRequest, NotFound, Unauthorized } = require("http-errors");
 
+const asyncHandler = require("../middlewares/async");
 const ErrorResponse = require("../utils/errorResponses");
 const User = require("../models/user");
-const errorHandler = require("../middlewares/error");
 
 const getAllUser = asyncHandler(async (req, res, next) => {
-  const user = await User.find();
+  const user = await User.find().populate('posts');
   res.status(200).json({
     success: true,
     data: user,
@@ -40,7 +39,7 @@ const deleteOneUser = asyncHandler(async (req, res, next) => {
     if (!isuserExist)
       next(new ErrorResponse(`user with id ${req.params._id} not exist`, 404));
     else {
-      const user = await User.deleteOne({ _id: req.params._id });
+      isuserExist.remove()
       res.status(200).json({
         success: true,
       });

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const express = require('express')
+const fileUpload = require('express-fileupload')
 const swaggerDocs = require('./public/api-docs/swagger');
 const errorHandler = require('./middlewares/error')
 
@@ -14,6 +15,8 @@ const connDB = require('./config/dbConn')
 connDB()
 
 app.use(express.json())
+
+app.use(fileUpload())
 
 app.use('/post', require('./routes/post'))
 app.use('/user', require('./routes/user'))
