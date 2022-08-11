@@ -1,5 +1,6 @@
 const { Schema, default: mongoose } = require("mongoose");
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken')
 const userSchema = new Schema(
   {
     firstName: {
@@ -18,7 +19,11 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, "please provide password"],
+      minlength:6,
+      select: false
     },
+    resetPasswordToken:String,
+    resetPasswordExpire:Date,
     phone: {
       type: String,
       required: [true, "please provide phone"],
@@ -29,13 +34,14 @@ const userSchema = new Schema(
     },
     role: {
       type: String,
-      default: "user",
+      enum: ['user', 'admin'],
+      default: 'user',
     },
     status: {
       type: Boolean,
       default: false,
     },
-    dateTime: {
+    createdAt: {
       type: Date,
       default: Date.now,
     },
@@ -52,6 +58,16 @@ userSchema.pre("save", async function (next) {
   }
   next();
 });
+userSchema.methods.getSignedJWTToken = function(){
+  return jwt.sign({id:this._id}, process.env.JWT_SECRET,{
+    expiresIn: process.env.JWT_EXPIRE
+  })
+}
+
+userSchema.methods.matchPassword = async function(enteredPassword){
+  return await bcrypt.compare(enteredPassword, this.password)
+}
+
 userSchema.pre("remove", async function (next) {
   await this.model("post").deleteMany({ user: this.id });
   next();

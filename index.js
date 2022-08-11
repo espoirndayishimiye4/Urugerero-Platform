@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const express = require('express')
 const fileUpload = require('express-fileupload')
+const path = require('path')
+
 const swaggerDocs = require('./public/api-docs/swagger');
 const errorHandler = require('./middlewares/error')
 
@@ -17,6 +19,8 @@ connDB()
 app.use(express.json())
 
 app.use(fileUpload())
+
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/post', require('./routes/post'))
 app.use('/user', require('./routes/user'))
