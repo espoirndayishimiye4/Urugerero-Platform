@@ -22,13 +22,7 @@ const createUser = asyncHandler(async (req, res, next) => {
     phone,
     sector,
   });
-  const token = user.getSignedJWTToken();
-  console.log(token);
-  res.status(200).json({
-    success: true,
-    data: user,
-    token,
-  });
+  sendTokenResponse(user, 200, req, res);
 });
 
 const getOneUser = asyncHandler(async (req, res, next) => {
@@ -68,17 +62,54 @@ const updateUser = asyncHandler(async (req, res, next) => {
 });
 const login = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
-  if(!email || !password){return next(new ErrorResponse(`Please provide email and password`, 400));}
-  const user = await User.findOne({ email }).select('+password');
-  if (!user){return next(new ErrorResponse(`credentials are not correct`, 401))}
+  if (!email || !password) {
+    return next(new ErrorResponse(`Please provide email and password`, 400));
+  }
+  const user = await User.findOne({ email }).select("+password");
+  if (!user) {
+    return next(new ErrorResponse(`credentials are not correct`, 401));
+  }
   const valid = await user.matchPassword(password);
-  if (!valid) {return next(new ErrorResponse(`credentials are not correct`, 401))}
-const token = user.getSignedJWTToken()
-  res.status(200).json({
-    success: true,
-    token
-  });
+  if (!valid) {
+    return next(new ErrorResponse(`credentials are not correct`, 401));
+  }
+  sendTokenResponse(user, 200, req, res);
 });
+
+// const sendResponse = (user, statusCode, res) => {
+//   const token = user.getSignedJWTToken();
+//   const option = {
+//     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+//     httpOnly: true,
+//   };
+
+//   res.status(statusCode).cookie("token", token, option).json({
+//     success: true,
+//     token,
+//   });
+// };
+
+// Get token from model, create cookie and send response
+const sendTokenResponse = (user, statusCode, req, res) => {
+  // Create token
+  const token = user.getSignedJWTToken();
+
+  const options = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true
+  };
+
+  res
+    .status(statusCode)
+    .cookie('token', token, options)
+    .json({
+      success: true,
+      token
+    });
+    console.log(req.cookie)
+};
 module.exports = {
   getAllUser,
   createUser,

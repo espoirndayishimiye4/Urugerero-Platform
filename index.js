@@ -2,6 +2,8 @@ const mongoose = require('mongoose')
 const express = require('express')
 const fileUpload = require('express-fileupload')
 const path = require('path')
+const cookieParser = require('cookie-parser')
+const cors = require('cors')
 
 const swaggerDocs = require('./public/api-docs/swagger');
 const errorHandler = require('./middlewares/error')
@@ -19,6 +21,9 @@ connDB()
 app.use(express.json())
 
 app.use(fileUpload())
+
+app.use(cors({ origin: true, credentials: true }));
+app.use(cookieParser())
 
 app.use(express.static(path.join(__dirname, 'public')))
 
