@@ -35,5 +35,5 @@ app.use(errorHandler)
 
 mongoose.connection.once('open', ()=>{
     console.log('DB connected')
-    app.listen(process.env.PORT,()=>{console.log(`server is running on port ${process.env.PORT}`)})
+    app.listen(process.env.PORT || 3500,()=>{console.log(`server is running on port ${process.env.PORT}`)})
 })
