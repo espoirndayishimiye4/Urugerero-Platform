@@ -2,6 +2,7 @@ const path = require("path");
 const asyncHandler = require("../middlewares/async");
 const ErrorResponse = require("../utils/errorResponses");
 const Post = require("../models/post");
+const User = require("../models/user");
 
 const getAllPost = asyncHandler(async (req, res, next) => {
   const post = await Post.find().populate({
@@ -94,7 +95,7 @@ const updatePost = asyncHandler(async (req, res, next) => {
 // });
 
 const photoUpload = asyncHandler(async (req, res, next) => {
-  const post = await Post.findById(req.params.id);
+  const post = await User.findById(req.body.user);
 
   if (!post) {
     return next(
@@ -142,7 +143,8 @@ const photoUpload = asyncHandler(async (req, res, next) => {
       return next(new ErrorResponse(`Problem with file upload`, 500));
     }
 
-    await Post.findByIdAndUpdate(req.params.id, { photo: file.name });
+    //await Post.create({content: req.body.content}, {file: file.name});
+      await Post.create({user:"123"}, {content: "hello"}, {file: "imga.jpg"})
 
     res.status(200).json({
       success: true,

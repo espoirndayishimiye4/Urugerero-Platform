@@ -11,9 +11,9 @@ const postSchema = new Schema({
         type: String,
         required: [true,'please provide content']
     },
-    image:{
+    file:{
         type: String,
-        required: [true,'please provide image']
+        required: [true,'please provide file']
     },
     status:{
         type: Boolean,

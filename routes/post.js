@@ -5,8 +5,8 @@ const {photoUpload, getAllPost, createPost, getOnePost, deleteOnePost, updatePos
 const {protected, authorize} = require('../middlewares/auth')
 const routes = express.Router()
 
-routes.route('/photo/:id').put( protected, photoUpload)
+routes.route('/photo').post( photoUpload)
 routes.route('/:_id').get(protected, getOnePost).delete(protected, deleteOnePost).patch(protected, updatePost)
-routes.route('/').get(protected,getAllPost).post(protected, createPost)
+routes.route('/').get(protected,getAllPost).post( createPost)
 
 module.exports = routes
